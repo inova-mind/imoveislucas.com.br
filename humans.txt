@@ -1,0 +1,32 @@
+/* TEAM */
+
+Proprietário: Lucas Rocha
+Site: www.imoveislucas.com.br
+Local: Brasil
+
+Atendimento Comercial: LRM Consultoria Imobiliária
+Responsável: Lucia Helena
+CRECI: 12194
+E-mail: adm@lrmconsultoriaimobiliaria.com.br
+Site: www.lrmconsultoriaimobiliaria.com.br
+Local: Minas Gerais, Brasil
+
+/* DEVELOPMENT */
+
+Desenvolvimento: Inovamind
+Responsável: Thales Fernandes
+E-mail: contato@inovamind.dev
+Site: www.inovamind.dev
+Local: Brasil
+
+/* THANKS */
+
+Lucas Rocha, pela confiança.
+LRM Imóveis, pela parceria.
+
+/* SITE */
+
+Last update: 2026-05-25
+Standards: HTML5, CSS3, JavaScript, React 18
+Components: React, path routing SPA, FastAPI (Python 3.13) backend
+Software: Nginx, Cloudflare, PostgreSQL 17, pgBouncer, esbuild
