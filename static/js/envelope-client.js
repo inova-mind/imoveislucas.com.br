@@ -1,0 +1,13 @@
+"use strict";(function(){var THIS_SRC=(document.currentScript&&document.currentScript.src)||"";var INFO=new TextEncoder().encode("inova auth envelope v1");function b64(bytes){var a=new Uint8Array(bytes),s="";for(var i=0;i<a.length;i++){s+=String.fromCharCode(a[i]);}
+return btoa(s);}
+function b64ToBytes(str){var bin=atob(str),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++){a[i]=bin.charCodeAt(i);}
+return a;}
+function workerUrl(){var src=THIS_SRC,h=src.indexOf("#");if(h>=0){src=src.slice(0,h);}
+var q=src.indexOf("?"),query=q>=0?src.slice(q):"",path=q>=0?src.slice(0,q):src;var dir=path.replace(/[^/]*$/,"");return dir+"pow-worker.js"+query;}
+function solvePow(prefix,bits){return new Promise(function(resolve,reject){var w;try{w=new Worker(workerUrl());}catch(e){reject(e);return;}
+w.onmessage=function(ev){w.terminate();resolve(ev.data.solution);};w.onerror=function(e){w.terminate();reject(e);};w.postMessage({prefix:prefix,bits:bits});});}
+async function buildEnvelope(ch,login,senha){var subtle=window.crypto.subtle;var serverPub=await subtle.importKey("spki",b64ToBytes(ch.pubkey),{name:"ECDH",namedCurve:"P-256"},false,[]);var eph=await subtle.generateKey({name:"ECDH",namedCurve:"P-256"},false,["deriveBits"]);var sharedBits=await subtle.deriveBits({name:"ECDH",public:serverPub},eph.privateKey,256);var hkdfKey=await subtle.importKey("raw",sharedBits,"HKDF",false,["deriveKey"]);var aesKey=await subtle.deriveKey({name:"HKDF",hash:"SHA-256",salt:new Uint8Array(32),info:INFO},hkdfKey,{name:"AES-GCM",length:256},false,["encrypt"]);var iv=window.crypto.getRandomValues(new Uint8Array(12));var payload={login:login,senha:senha,cid:ch.challenge_id,ts:Math.floor(Date.now()/1000),origin:window.location.origin};var ct=await subtle.encrypt({name:"AES-GCM",iv:iv},aesKey,new TextEncoder().encode(JSON.stringify(payload)));var epk=await subtle.exportKey("spki",eph.publicKey);var pow=await solvePow(ch.pow.prefix,ch.pow.bits);return{challenge_id:ch.challenge_id,epk:b64(epk),iv:b64(iv),ciphertext:b64(ct),pow:pow};}
+async function login(loginVal,senhaVal,opts){opts=opts||{};var challengePath=opts.challengePath||"/auth/challenge";var loginPath=opts.loginPath||"/auth/login";var cr=await fetch(challengePath,{credentials:"include"});if(!cr.ok){return{ok:false,status:cr.status,data:{}};}
+var ch=await cr.json();var envelope=await buildEnvelope(ch,loginVal,senhaVal);var r=await fetch(loginPath,{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify(envelope)});var data={};try{data=await r.json();}catch(e){data={};}
+return{ok:r.ok,status:r.status,data:data};}
+window.InovaAuthEnvelope={login:login,buildEnvelope:buildEnvelope};})();

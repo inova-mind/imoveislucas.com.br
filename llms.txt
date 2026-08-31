@@ -1,0 +1,24 @@
+# Imóveis Lucas
+
+> Site institucional e catálogo de imóveis residenciais do Lucas Rocha em Minas Gerais e São Paulo. Casas em condomínio e apartamentos de alto padrão para venda. Atendimento comercial via LRM Consultoria Imobiliária (CRECI 12194).
+
+O site é uma SPA React (path routing) com catálogo público de imóveis, página de contato e área administrativa restrita para gestão pelo proprietário e pela imobiliária parceira.
+
+## Páginas
+
+- [Home](https://www.imoveislucas.com.br/): apresentação do proprietário e destaques
+- [Imóveis em MG](https://www.imoveislucas.com.br/imoveis/mg): catálogo de Minas Gerais (Lagoa Santa)
+- [Imóveis em SP](https://www.imoveislucas.com.br/imoveis/sp): catálogo de São Paulo
+- [Contato](https://www.imoveislucas.com.br/contato): formulário de contato
+- [Imóvel (detalhe)](https://www.imoveislucas.com.br/imovel/<slug>): página de detalhe de cada imóvel
+
+## Imóveis em destaque
+
+- Casa nas Amendoeiras (Lagoa Santa/MG): 476 m² em lote de 5.000 m², 4 suítes, piscina, SPA, energia solar, casa de hóspedes
+- Casa nos Jardins da Lagoa (Lagoa Santa/MG): casa em condomínio com lazer completo
+
+## Contato
+
+- E-mail: adm@lrmconsultoriaimobiliaria.com.br
+- WhatsApp: +55 31 99697-3400
+- Site: https://www.imoveislucas.com.br
